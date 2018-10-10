@@ -21,7 +21,6 @@ object Main {
 
         // initialize search variables
         val board = Array(m){arrayOfNulls<Node?>(n)} // maps position to Node in search tree
-
         board[start.x][start.y] = Node(null, start) // starting node
 
         val searchQueue = LinkedList<Position>() // BFS queue for nodes.
@@ -64,7 +63,7 @@ object Main {
         } while (searchQueue.isNotEmpty())
 
         // if the queue is empty, we have no valid moves and no space to expand.
-        println("There is no solution.")
+        println("\nThere is no solution.")
     }
 
     // asks user to input a integer denoted by "text" smaller than max
@@ -72,21 +71,13 @@ object Main {
 
         println("Please enter $text:")
 
-        var inputInt: Int
-
         while (true) {
             val str = readLine() ?: ""
 
-            if (str.matches("-?\\d+".toRegex())) {
-                inputInt = Integer.parseInt(str)
-
-                if (inputInt in min..(max-1)) {
-                    return inputInt
-                } else {
-                    println("Please enter $text again. It has to be > $min and < $max.")
-                }
+            if (str.matches("\\d{1,7}".toRegex()) && Integer.parseInt(str) >= min && Integer.parseInt(str) < max) {
+                return Integer.parseInt(str)
             } else {
-                println("Please enter $text again. It has to be integer.")
+                println("Please enter $text again. It has to be integer >= $min and < $max.")
             }
         }
     }
@@ -95,7 +86,6 @@ object Main {
     private fun printResult(goalPosition:Node?) {
 
         val path = ArrayList<Position>()
-
         var previous: Node? = goalPosition
 
         while (previous != null) {
@@ -103,11 +93,10 @@ object Main {
             previous = previous.predecessor
         }
 
-        println("The path to the goal is ${(path.size - 1)} steps long:")
+        println("\nThe path to the goal is ${(path.size - 1)} steps long:")
 
         for (i in path.indices.reversed()) {
             println("${path[i].x} ${path[i].y}")
         }
     }
-
 }
